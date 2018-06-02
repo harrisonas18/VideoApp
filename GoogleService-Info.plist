@@ -7,34 +7,34 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>251519161181-s28dso5siur60shdfpmudlr71u9nn9be.apps.googleusercontent.com</string>
+	<string>573552432447-pljjurpu76o59rv191bjsuavd6kcvntl.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.251519161181-s28dso5siur60shdfpmudlr71u9nn9be</string>
+	<string>com.googleusercontent.apps.573552432447-pljjurpu76o59rv191bjsuavd6kcvntl</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDrjWyymoL54KPwujmMQMf1dZ7Ui7aCMls</string>
+	<string>AIzaSyB-MSMVeZmpBsqj6iNuJAka_joZATL966A</string>
 	<key>GCM_SENDER_ID</key>
-	<string>251519161181</string>
+	<string>573552432447</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.zero2launch.InstagramClone</string>
+	<string>com.blast.video</string>
 	<key>PROJECT_ID</key>
-	<string>instagramclone-fc544</string>
+	<string>blastvideo-4c71e</string>
 	<key>STORAGE_BUCKET</key>
-	<string>instagramclone-fc544.appspot.com</string>
+	<string>blastvideo-4c71e.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:251519161181:ios:07fea6e989626983</string>
+	<string>1:573552432447:ios:44ce934888c87aa6</string>
 	<key>DATABASE_URL</key>
-	<string>https://instagramclone-fc544.firebaseio.com</string>
+	<string>https://blastvideo-4c71e.firebaseio.com</string>
 </dict>
 </plist>
