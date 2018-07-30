@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-class DiscoverViewController: UIViewController {
+class DiscoverViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     @IBOutlet weak var collectionView: UICollectionView!
     var posts: [Post] = []
@@ -18,12 +18,19 @@ class DiscoverViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.dataSource = self
-        collectionView.delegate = self
+        handlePagination()
+        //collectionView?.delegate = self
+        collectionView?.dataSource = self
+        collectionView?.backgroundColor = UIColor.clear
+        collectionView?.contentInset = UIEdgeInsets(top: 23, left: 10, bottom: 10, right: 10)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style:
             .plain, target: nil, action: nil)
         collectionView.alwaysBounceVertical = true
-        handlePagination()
+        // Set the PinterestLayout delegate
+        if let layout = collectionView?.collectionViewLayout as? PinterestLayout {
+            layout.delegate = self
+        }
+        
     }
     
     @IBAction func refresh_TouchUpInside(_ sender: Any) {
@@ -42,7 +49,7 @@ class DiscoverViewController: UIViewController {
         let ref = Database.database().reference(withPath:"posts").queryOrderedByKey()
         
         if startKey == nil {
-            ref.queryLimited(toFirst: 15).observeSingleEvent(of: .value, with: { snapshot in
+            ref.queryLimited(toFirst: 10).observeSingleEvent(of: .value, with: { snapshot in
                 guard let children = snapshot.children.allObjects.last as? DataSnapshot else {return}
                 
                 if snapshot.childrenCount > 0 {
@@ -102,19 +109,11 @@ class DiscoverViewController: UIViewController {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if (indexPath.row == numberOfItemsInSection-1 && donePaginating == false) {
-            print("will display called")
-            handlePagination()
-            numberOfItemsInSection=posts.count
-        } else {
-            return
-        }
-    }
+    
 
 }//end of class
 
-extension DiscoverViewController: UICollectionViewDataSource {
+extension DiscoverViewController {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count
     }
@@ -124,27 +123,45 @@ extension DiscoverViewController: UICollectionViewDataSource {
         let post = posts[indexPath.row]
         cell.post = post
         cell.delegate = self
-        
+
         return cell
     }
 }
+//MARK: - PINTEREST LAYOUT DELEGATE
+extension DiscoverViewController: PinterestLayoutDelegate {
+    func collectionView(_ collectionView: UICollectionView,
+                        heightForPhotoAtIndexPath indexPath:IndexPath) -> CGFloat {
 
-extension DiscoverViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
+        return (375 / posts[indexPath.item].ratio!) / 2
     }
-    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if (indexPath.row == numberOfItemsInSection-1 && donePaginating == false) {
+            print("will display called")
+            handlePagination()
+            
+            numberOfItemsInSection=posts.count
+        } else {
+            return
+        }
+    }
+}
+
+extension DiscoverViewController {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
+
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let padding: CGFloat =  50
-        let collectionViewSize = collectionView.frame.size.width - padding
-        
-        return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
+        //2
+        let itemSize = (collectionView.frame.width - (collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
+        return CGSize(width: itemSize, height: itemSize)
+        //return CGSize(width: collectionView.frame.size.width / 3 - 1, height: collectionView.frame.size.width / 3 - 1)
     }
-    
     
 }
 
